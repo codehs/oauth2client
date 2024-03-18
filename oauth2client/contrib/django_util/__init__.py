@@ -352,11 +352,14 @@ class OAuth2Settings(object):
                 'configured')
 
         if ('django.contrib.sessions.middleware.SessionMiddleware' not in
+                middleware_settings and
+                'user_sessions.middleware.SessionMiddleware' not in
                 middleware_settings):
             raise exceptions.ImproperlyConfigured(
                 'The Google OAuth2 Helper requires session middleware to '
                 'be installed. Edit your MIDDLEWARE_CLASSES or MIDDLEWARE '
                 'setting to include \'django.contrib.sessions.middleware.'
+                'SessionMiddleware\' or \'user_sessions.middleware.'
                 'SessionMiddleware\'.')
         (self.storage_model, self.storage_model_user_property,
          self.storage_model_credentials_property) = _get_storage_model()
