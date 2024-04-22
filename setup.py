@@ -39,7 +39,7 @@ install_requires = [
     'pyasn1-modules>=0.0.5',
     'rsa>=3.1.4',
     'six>=1.6.1',
-    'jsonpickle==1.1.0',
+    'jsonpickle==1.5.0',
 ]
 
 long_desc = """
