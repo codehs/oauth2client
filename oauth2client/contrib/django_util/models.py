@@ -35,7 +35,7 @@ class CredentialsField(models.Field):
     def get_internal_type(self):
         return 'BinaryField'
 
-    def from_db_value(self, value, expression, connection, context=None):
+    def from_db_value(self, value, expression, connection):
         """Overrides ``models.Field`` method. This converts the value
         returned from the database to an instance of this class.
         """
@@ -64,7 +64,7 @@ class CredentialsField(models.Field):
         if value is None:
             return None
         else:
-            return encoding.smart_text(
+            return encoding.smart_str(
                 base64.b64encode(jsonpickle.encode(value).encode()))
 
     def value_to_string(self, obj):
@@ -78,5 +78,5 @@ class CredentialsField(models.Field):
         Returns:
             string, the serialized field value
         """
-        value = self._get_val_from_obj(obj)
+        value = self.value_from_object(obj)
         return self.get_prep_value(value)

@@ -18,7 +18,7 @@ import copy
 import unittest
 
 import django.conf
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.contrib.auth import models as django_models
 from django.core import exceptions
 import mock
@@ -31,7 +31,7 @@ from tests.contrib import django_util as tests_django_util
 
 
 urlpatterns = [
-    url(r'^oauth2/', include(site.urls))
+    re_path(r'^oauth2/', include(site.urls))
 ]
 
 
@@ -93,7 +93,7 @@ class OAuth2SetupTest(unittest.TestCase):
 
     @mock.patch("oauth2client.contrib.django_util.clientsecrets")
     def test_no_session_middleware(self, clientsecrets):
-        django.conf.settings.MIDDLEWARE_CLASSES = ()
+        django.conf.settings.MIDDLEWARE = ()
 
         with self.assertRaises(exceptions.ImproperlyConfigured):
             django_util.OAuth2Settings.__init__(
@@ -101,16 +101,18 @@ class OAuth2SetupTest(unittest.TestCase):
                 django.conf.settings)
 
     def test_no_middleware(self):
-        django.conf.settings.MIDDLEWARE_CLASSES = None
+        django.conf.settings.MIDDLEWARE = None
         with self.assertRaises(exceptions.ImproperlyConfigured):
             django_util.OAuth2Settings.__init__(
                 object.__new__(django_util.OAuth2Settings),
                 django.conf.settings)
 
-    def test_middleware_no_classes(self):
-        django.conf.settings.MIDDLEWARE = (
-            django.conf.settings.MIDDLEWARE_CLASSES)
-        django.conf.settings.MIDDLEWARE_CLASSES = None
+    def test_middleware_classes_fallback(self):
+        # OAuth2Settings still falls back to the legacy MIDDLEWARE_CLASSES
+        # setting when MIDDLEWARE is not set.
+        django.conf.settings.MIDDLEWARE_CLASSES = (
+            django.conf.settings.MIDDLEWARE)
+        django.conf.settings.MIDDLEWARE = None
         # primarily testing this doesn't raise an exception
         django_util.OAuth2Settings(django.conf.settings)
 
