@@ -34,9 +34,11 @@ DATABASES = {
         'NAME': os.path.join('.', 'db.sqlite3'),
     }
 }
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware'
+MIDDLEWARE = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
 )
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 ALLOWED_HOSTS = ['testserver']
 

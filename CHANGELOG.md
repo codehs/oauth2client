@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v4.1.5
+
+CodeHS fork release.
+
+* Django 4.2 compatibility for `oauth2client.contrib.django_util`:
+  * Replaced `django.conf.urls.url()` with `django.urls.re_path()`
+    (removed in Django 4.0).
+  * Removed `providing_args` from the `oauth2_authorized` signal
+    (removed in Django 4.0).
+  * Replaced `smart_text` with `smart_str` (removed in Django 4.0).
+  * Replaced removed `Field._get_val_from_obj()` with
+    `Field.value_from_object()` and updated the `from_db_value()`
+    signature (Django 2.0).
+  * Access `request.user.is_authenticated` as a property (Django 2.0).
+  * Fixed `AppConfig.name` to the correct module path.
+* `django_util` now requires Django 2.0+.
+
+## v4.1.4
+
+CodeHS fork release.
+
+* Don't raise an exception when using django-user-sessions middleware. (#3)
+* Updated jsonpickle version pin. (#2)
+
 ## v4.1.3
 
 **Note**: oauth2client is deprecated. No more features will be added to the
